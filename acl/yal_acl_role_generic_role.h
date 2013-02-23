@@ -14,40 +14,20 @@
   +----------------------------------------------------------------------+
 */
   
-#ifdef HAVE_CONFIG_H
-#include "config.h"
+#ifndef YAL_ACL_ROLE_GENERIC_ROLE_H
+#define YAL_ACL_ROLE_GENERIC_ROLE_H
+  
+#define YAL_ACL_ROLE_GENERIC_ROLE_PROPERTY_NAME_ROLE_ID  "roleId"
+  
+extern zend_class_entry *yal_acl_role_generic_role_ce;
+ZEND_MINIT_FUNCTION(yal_acl_role_generic_role);
 #endif
 
-#include "php.h"
-#include "php_yal.h"
-#include "yal_acl_role_role_interface.h"
-
-zend_class_entry * yal_acl_role_role_interface_ce;
-
-/** {{{ proto public Yal\\Acl\\Role\\RoleInterface::getRoleId()
+/*
+ *Local variables:
+ *tab-width: 4
+ *c-basic-offset: 4
+ *End:
+ *vim600: noet sw=4 ts=4 fdm=marker
+ *vim<600: noet sw=4 ts=4
  */
-PHP_METHOD(yal_acl_role_role_interface, getRoleId)
-{
-}
-/* }}} */
-
-/** {{{ yal_acl_role_interface_methods
- */
-zend_function_entry yal_acl_role_role_interface_methods[] = {
-    PHP_ME(yal_acl_role_role_interface, getRoleId, NULL, ZEND_ACC_PUBLIC)
-    {NULL, NULL, NULL}
-};
-/* }}} */
-
-/* {{{ ZEND_MINIT_FUNCTION
- */
-ZEND_MINIT_FUNCTION(yal_acl_role_role_interface)
-{
-    zend_class_entry ce;
-    INIT_CLASS_ENTRY(ce, "Yal\\Acl\\Role\\RoleInterface", yal_acl_role_role_interface_methods);
-    yal_acl_role_role_interface_ce = zend_register_internal_class_ex(&ce, NULL, NULL TSRMLS_CC);
-    yal_acl_role_role_interface_ce->ce_flags |= ZEND_ACC_INTERFACE;
-
-    return SUCCESS;
-}
-/* }}} */

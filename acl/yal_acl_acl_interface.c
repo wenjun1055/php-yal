@@ -54,7 +54,7 @@ PHP_METHOD(yal_acl_acl_interface, isAllowed)
 
 /* {{{ yal_acl_interface_methods
  */
-static zend_function_entry yal_acl_acl_interface_methods[] = {
+zend_function_entry yal_acl_acl_interface_methods[] = {
     PHP_ME(yal_acl_acl_interface, hasResource, yal_acl_acl_interface_has_resource_arg, ZEND_ACC_PUBLIC)
     PHP_ME(yal_acl_acl_interface, isAllowed,   yal_acl_acl_interface_is_allowed_arg,   ZEND_ACC_PUBLIC)
     {NULL, NULL, NULL}

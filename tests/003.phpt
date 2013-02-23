@@ -1,5 +1,5 @@
 --TEST--
-Check for yal Yal\Acl\Role\RoleInterface
+Check for Yal\Acl\Role\RoleInterface
 --SKIPIF--
 <?php if (!extension_loaded("yal")) print "skip"; ?>
 --FILE--

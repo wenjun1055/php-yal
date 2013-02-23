@@ -1,5 +1,5 @@
 --TEST--
-Check for yal Yal\Acl\AclInterface
+Check for Yal\Acl\AclInterface
 --SKIPIF--
 <?php if (!extension_loaded("yal")) print "skip"; ?>
 --FILE--
