@@ -36,13 +36,13 @@ extern zend_module_entry yal_module_entry;
 #include "TSRM.h"
 #endif
 
+
 PHP_MINIT_FUNCTION(yal);
 PHP_MSHUTDOWN_FUNCTION(yal);
 PHP_RINIT_FUNCTION(yal);
 PHP_RSHUTDOWN_FUNCTION(yal);
 PHP_MINFO_FUNCTION(yal);
 
-PHP_FUNCTION(confirm_yal_compiled);	/* For testing, remove later. */
 
 /* 
   	Declare any global variables you may need between the BEGIN

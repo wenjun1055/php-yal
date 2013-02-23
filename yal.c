@@ -27,6 +27,7 @@
 #include "ext/standard/info.h"
 #include "php_yal.h"
 
+#include "yal_acl.h"
 /* If you declare any globals in php_yal.h uncomment this:
 ZEND_DECLARE_MODULE_GLOBALS(yal)
 */
@@ -39,8 +40,7 @@ static int le_yal;
  * Every user visible function must have an entry in yal_functions[].
  */
 const zend_function_entry yal_functions[] = {
-	PHP_FE(confirm_yal_compiled,	NULL)		/* For testing, remove later. */
-	PHP_FE_END	/* Must be the last line in yal_functions[] */
+	{NULL, NULL, NULL}
 };
 /* }}} */
 
@@ -96,6 +96,8 @@ PHP_MINIT_FUNCTION(yal)
 	/* If you have INI entries, uncomment these lines 
 	REGISTER_INI_ENTRIES();
 	*/
+	ZEND_MODULE_STARTUP_N(yal_acl)(INIT_FUNC_ARGS_PASSTHRU);
+	
 	return SUCCESS;
 }
 /* }}} */
@@ -142,34 +144,6 @@ PHP_MINFO_FUNCTION(yal)
 	*/
 }
 /* }}} */
-
-
-/* Remove the following function when you have succesfully modified config.m4
-   so that your module can be compiled into PHP, it exists only for testing
-   purposes. */
-
-/* Every user-visible function in PHP should document itself in the source */
-/* {{{ proto string confirm_yal_compiled(string arg)
-   Return a string to confirm that the module is compiled in */
-PHP_FUNCTION(confirm_yal_compiled)
-{
-	char *arg = NULL;
-	int arg_len, len;
-	char *strg;
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
-		return;
-	}
-
-	len = spprintf(&strg, 0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "yal", arg);
-	RETURN_STRINGL(strg, len, 0);
-}
-/* }}} */
-/* The previous line is meant for vim and emacs, so it can correctly fold and 
-   unfold functions in source code. See the corresponding marks just before 
-   function definition, where the functions purpose is also documented. Please 
-   follow this convention for the convenience of others editing your code.
-*/
 
 
 /*

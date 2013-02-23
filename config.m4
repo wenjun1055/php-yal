@@ -13,9 +13,9 @@ dnl [  --with-yal             Include yal support])
 
 dnl Otherwise use enable:
 
-dnl PHP_ARG_ENABLE(yal, whether to enable yal support,
-dnl Make sure that the comment is aligned:
-dnl [  --enable-yal           Enable yal support])
+PHP_ARG_ENABLE(yal, whether to enable yal support,
+Make sure that the comment is aligned:
+[  --enable-yal           Enable yal support])
 
 if test "$PHP_YAL" != "no"; then
   dnl Write more examples of tests here...
@@ -59,5 +59,10 @@ if test "$PHP_YAL" != "no"; then
   dnl
   dnl PHP_SUBST(YAL_SHARED_LIBADD)
 
-  PHP_NEW_EXTENSION(yal, yal.c, $ext_shared)
+  PHP_NEW_EXTENSION(yal,                    
+      yal.c                                   \
+      yal_acl.c                               \
+      acl/yal_acl_acl_interface.c             \
+      acl/yal_acl_role_role_interface.c,
+      $ext_shared)
 fi
