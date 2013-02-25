@@ -64,6 +64,7 @@ if test "$PHP_YAL" != "no"; then
       yal_acl.c                               \
       acl/yal_acl_acl_interface.c             \
       acl/yal_acl_role_role_interface.c       \
+      acl/yal_acl_role_registery.c            \
       acl/yal_acl_role_generic_role.c,
       $ext_shared)
 fi
