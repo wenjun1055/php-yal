@@ -33,6 +33,17 @@ ZEND_BEGIN_ARG_INFO_EX(yal_acl_role_generic_role_construct_arg, 0, 0, 1)
 ZEND_END_ARG_INFO()
 /* }}} */
 
+/** {{{ zval * yal_acl_role_generic_role_instance(void)
+*/
+zval * yal_acl_role_generic_role_instance()
+{
+    zval *instance;
+    MAKE_STD_ZVAL(instance);
+    object_init_ex(instance, yal_acl_role_generic_role_ce);
+    return instance;
+}
+/* }}} */
+
 /** {{{ proto public Yal\Acl\Role\GenericRole::__construct($roleId)
  */
 PHP_METHOD(yal_acl_role_generic_role, __construct) 
@@ -79,7 +90,7 @@ PHP_METHOD(yal_acl_role_generic_role, __toString)
 /** {{{ yal_acl_role_interface_methods
  */
 zend_function_entry yal_acl_role_generic_role_methods[] = {
-    PHP_ME(yal_acl_role_generic_role, __construct, yal_acl_role_generic_role_construct_arg, ZEND_ACC_PUBLIC)
+    PHP_ME(yal_acl_role_generic_role, __construct, yal_acl_role_generic_role_construct_arg, ZEND_ACC_CTOR|ZEND_ACC_PUBLIC)
     PHP_ME(yal_acl_role_generic_role, getRoleId,   NULL,      ZEND_ACC_PUBLIC)
     PHP_ME(yal_acl_role_generic_role, __toString,  NULL,      ZEND_ACC_PUBLIC)
     {NULL, NULL, NULL}

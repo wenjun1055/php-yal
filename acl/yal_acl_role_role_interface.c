@@ -26,15 +26,15 @@ zend_class_entry * yal_acl_role_role_interface_ce;
 
 /** {{{ proto public Yal\\Acl\\Role\\RoleInterface::getRoleId()
  */
-PHP_METHOD(yal_acl_role_role_interface, getRoleId)
-{
-}
+// PHP_METHOD(yal_acl_role_role_interface, getRoleId)
+// {
+// }
 /* }}} */
 
 /** {{{ yal_acl_role_interface_methods
  */
 zend_function_entry yal_acl_role_role_interface_methods[] = {
-    PHP_ME(yal_acl_role_role_interface, getRoleId, NULL, ZEND_ACC_PUBLIC)
+    ZEND_ABSTRACT_ME(yal_acl_role_role_interface, getRoleId, NULL)
     {NULL, NULL, NULL}
 };
 /* }}} */

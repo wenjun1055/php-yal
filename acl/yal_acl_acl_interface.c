@@ -68,7 +68,6 @@ ZEND_MINIT_FUNCTION(yal_acl_acl_interface)
     zend_class_entry ce;
     INIT_CLASS_ENTRY(ce, "Yal\\Acl\\AclInterface", yal_acl_acl_interface_methods);
     yal_acl_acl_interface_ce = zend_register_internal_class_ex(&ce, NULL, NULL TSRMLS_CC);
-    yal_acl_acl_interface_ce->ce_flags |= ZEND_ACC_INTERFACE;
 
     return SUCCESS;
 }
