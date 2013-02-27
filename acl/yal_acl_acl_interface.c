@@ -40,23 +40,23 @@ ZEND_END_ARG_INFO()
 
 /** {{{ proto public Yal\\Acl\\AclInterface::hasResource($resource)
  */
-PHP_METHOD(yal_acl_acl_interface, hasResource) 
-{
-}
+// PHP_METHOD(yal_acl_acl_interface, hasResource) 
+// {
+// }
 /* }}} */
 
 /** {{{ proto publiuc Yal\\Acl\\AclInterface::isAllowed($role, $resource, privilege)
  */
-PHP_METHOD(yal_acl_acl_interface, isAllowed)
-{
-}
+// PHP_METHOD(yal_acl_acl_interface, isAllowed)
+// {
+// }
 /* }}} */
 
 /* {{{ yal_acl_interface_methods
  */
 zend_function_entry yal_acl_acl_interface_methods[] = {
-    PHP_ME(yal_acl_acl_interface, hasResource, yal_acl_acl_interface_has_resource_arg, ZEND_ACC_PUBLIC)
-    PHP_ME(yal_acl_acl_interface, isAllowed,   yal_acl_acl_interface_is_allowed_arg,   ZEND_ACC_PUBLIC)
+    ZEND_ABSTRACT_ME(yal_acl_acl_interface, hasResource, yal_acl_acl_interface_has_resource_arg)
+    ZEND_ABSTRACT_ME(yal_acl_acl_interface, isAllowed,   yal_acl_acl_interface_is_allowed_arg)
     {NULL, NULL, NULL}
 };
 /* }}} */
@@ -68,6 +68,7 @@ ZEND_MINIT_FUNCTION(yal_acl_acl_interface)
     zend_class_entry ce;
     INIT_CLASS_ENTRY(ce, "Yal\\Acl\\AclInterface", yal_acl_acl_interface_methods);
     yal_acl_acl_interface_ce = zend_register_internal_class_ex(&ce, NULL, NULL TSRMLS_CC);
+    yal_acl_acl_interface_ce->ce_flags |= ZEND_ACC_INTERFACE;
 
     return SUCCESS;
 }

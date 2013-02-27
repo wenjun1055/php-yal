@@ -33,17 +33,6 @@ ZEND_BEGIN_ARG_INFO_EX(yal_acl_role_generic_role_construct_arg, 0, 0, 1)
 ZEND_END_ARG_INFO()
 /* }}} */
 
-/** {{{ zval * yal_acl_role_generic_role_instance(void)
-*/
-zval * yal_acl_role_generic_role_instance()
-{
-    zval *instance;
-    MAKE_STD_ZVAL(instance);
-    object_init_ex(instance, yal_acl_role_generic_role_ce);
-    return instance;
-}
-/* }}} */
-
 /** {{{ proto public Yal\Acl\Role\GenericRole::__construct($roleId)
  */
 PHP_METHOD(yal_acl_role_generic_role, __construct) 
