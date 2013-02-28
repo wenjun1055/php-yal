@@ -258,6 +258,34 @@ PHP_METHOD(yal_acl_role_registery, get)
 }
 /* }}} */
 
+/** {{{ proto public Yal\Acl\Role\Registery::getParents(RoleInterface|string $role)
+ */
+PHP_METHOD(yal_acl_role_registery, getParents) 
+{
+    zval *role, *role_id, *role_interface_instance, *roles, **instance, **return_role;
+    
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &role) == FAILURE) {
+        RETURN_FALSE;
+    }
+    
+    zend_call_method_with_1_params(&getThis(), Z_OBJCE_P(getThis()), NULL, "get", &role_interface_instance, role);
+    convert_to_object_ex(&role_interface_instance);
+    zend_call_method_with_1_params(&role_interface_instance, Z_OBJCE_P(role_interface_instance), NULL, "getroleid", &role_id, role_interface_instance);
+    convert_to_string_ex(&role_id);
+    //printf("%s\n", Z_STRVAL_P(role_id));
+    roles = zend_read_property(yal_acl_role_registery_ce, getThis(), ZEND_STRL(YAL_ACL_ROLE_REGISTERY_PROPERTY_ROLES), 1 TSRMLS_CC);
+
+    if (zend_hash_find(Z_ARRVAL_P(roles), Z_STRVAL_P(role_id), Z_STRLEN_P(role_id)+1, (void **)&instance) != SUCCESS) {
+        php_error_docref(NULL TSRMLS_CC, E_WARNING, "Roles '%s' not found", Z_STRVAL_P(role_id));
+        RETURN_FALSE;
+    }
+    if (zend_hash_find(Z_ARRVAL_PP(instance), ZEND_STRS("parents"), (void **)&return_role) != SUCCESS) {
+        php_error_docref(NULL TSRMLS_CC, E_WARNING, "Roles '%s' not found", Z_STRVAL_P(role_id));
+        RETURN_FALSE;
+    }
+    RETURN_ZVAL(*return_role, 1, 0);
+}
+/* }}} */
 
 
 
@@ -266,11 +294,11 @@ PHP_METHOD(yal_acl_role_registery, get)
 /** {{{ yal_acl_role_interface_methods
  */
 zend_function_entry yal_acl_role_registery_methods[] = {
-    PHP_ME(yal_acl_role_registery, __construct,        yal_acl_role_registery_void_arg,    ZEND_ACC_CTOR|ZEND_ACC_PUBLIC)
-    PHP_ME(yal_acl_role_registery, add,        yal_acl_role_registery_add_arg,                    ZEND_ACC_PUBLIC)
-    PHP_ME(yal_acl_role_registery, get,        yal_acl_role_registery_get_arg,                    ZEND_ACC_PUBLIC)
-    PHP_ME(yal_acl_role_registery, has,        yal_acl_role_registery_has_arg,                    ZEND_ACC_PUBLIC)
-    //PHP_ME(yal_acl_role_registery, getParents, yal_acl_role_registery_getParents_arg,             ZEND_ACC_PUBLIC)
+    PHP_ME(yal_acl_role_registery, __construct,     yal_acl_role_registery_void_arg,        ZEND_ACC_CTOR|ZEND_ACC_PUBLIC)
+    PHP_ME(yal_acl_role_registery, add,             yal_acl_role_registery_add_arg,         ZEND_ACC_PUBLIC)
+    PHP_ME(yal_acl_role_registery, get,             yal_acl_role_registery_get_arg,         ZEND_ACC_PUBLIC)
+    PHP_ME(yal_acl_role_registery, has,             yal_acl_role_registery_has_arg,         ZEND_ACC_PUBLIC)
+    PHP_ME(yal_acl_role_registery, getParents,      yal_acl_role_registery_getParents_arg,  ZEND_ACC_PUBLIC)
     //PHP_ME(yal_acl_role_registery, inherits,   yal_acl_role_registery_inherits_arg,               ZEND_ACC_PUBLIC)
     //PHP_ME(yal_acl_role_registery, remove,     yal_acl_role_registery_remove_arg,                 ZEND_ACC_PUBLIC)
     //PHP_ME(yal_acl_role_registery, removeAll,  yal_acl_role_registery_void_arg,                   ZEND_ACC_PUBLIC)
