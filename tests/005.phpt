@@ -1,20 +1,12 @@
 --TEST--
-Check for Yal\Acl\Role\Registery
+Check for Yal\Acl\Role\Registery::add()
 --SKIPIF--
 <?php if (!extension_loaded("yal")) print "skip"; ?>
 --FILE--
 <?php
-$role = new Yal\Acl\Role\GenericRole('id_6');
-var_dump($role->getRoleId());
-$genericRole = new Yal\Acl\Role\Registery();
-var_dump($genericRole->roles);
-var_dump($genericRole->add($role));
-var_dump($genericRole->has('id_6'));
-var_dump($genericRole->roles);
-var_dump($genericRole->get('id_6'));
-var_dump($genericRole->getParents('id_6'));
+namespace Yal\Acl;
+$roleRegistery = new Role\Registery();
+$roleRegistery->add('sss');
 ?>
 --EXPECTF--
-array(0) {
-}
-bool(false)
+Catchable fatal error: Argument 1 passed to Yal\Acl\Role\Registery::add() must be an instance of Yal\Acl\Role\GenericRole, string given in /home/vagrant/php-5.3.10/ext/yal/tests/005.php on line 4

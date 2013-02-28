@@ -36,6 +36,10 @@ extern zend_module_entry yal_module_entry;
 #include "TSRM.h"
 #endif
 
+#define TRUE        1
+#define FALSE       0
+
+
 
 PHP_MINIT_FUNCTION(yal);
 PHP_MSHUTDOWN_FUNCTION(yal);
