@@ -14,10 +14,10 @@
   +----------------------------------------------------------------------+
 */
   
-#ifndef YAL_ACL_ROLE_ROLE_INTERFACE_H
-#define YAL_ACL_ROLE_ROLE_INTERFACE_H
+#ifndef YAL_ACL_RESOURCE_RESOURCE_INTERFACE_H
+#define YAL_ACL_RESOURCE_RESOURCE_INTERFACE_H
 
-extern zend_class_entry *yal_acl_role_role_interface_ce;
+extern zend_class_entry *yal_acl_resource_resource_interface_ce;
 
-ZEND_MINIT_FUNCTION(yal_acl_role_role_interface);
+ZEND_MINIT_FUNCTION(yal_acl_resource_resource_interface);
 #endif

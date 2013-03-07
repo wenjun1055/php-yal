@@ -60,11 +60,12 @@ if test "$PHP_YAL" != "no"; then
   dnl PHP_SUBST(YAL_SHARED_LIBADD)
 
   PHP_NEW_EXTENSION(yal,                    
-      yal.c                                   \
-      yal_acl.c                               \
-      acl/yal_acl_acl_interface.c             \
-      acl/yal_acl_role_role_interface.c       \
-      acl/yal_acl_role_registery.c            \
+      yal.c                                           \
+      yal_acl.c                                       \
+      acl/yal_acl_acl_interface.c                     \
+      acl/yal_acl_role_role_interface.c               \
+      acl/yal_acl_role_registery.c                    \
+      acl/yal_acl_resource_resource_interface.c       \
       acl/yal_acl_role_generic_role.c,
       $ext_shared)
 fi

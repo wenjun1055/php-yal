@@ -13,11 +13,34 @@
   | Author: Jun Wen  <wenjun1055@gmail.com>                              |
   +----------------------------------------------------------------------+
 */
-  
-#ifndef YAL_ACL_ROLE_ROLE_INTERFACE_H
-#define YAL_ACL_ROLE_ROLE_INTERFACE_H
 
-extern zend_class_entry *yal_acl_role_role_interface_ce;
-
-ZEND_MINIT_FUNCTION(yal_acl_role_role_interface);
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
+
+#include "php.h"
+#include "php_yal.h"
+#include "yal_acl_resource_resource_interface.h"
+
+zend_class_entry * yal_acl_resource_resource_interface_ce;
+
+/** {{{ yal_acl_resource_resource_interface_methods
+ */
+zend_function_entry yal_acl_resource_resource_interface_methods[] = {
+    ZEND_ABSTRACT_ME(yal_acl_resource_resource_interface, getResourceId, NULL)
+    {NULL, NULL, NULL}
+};
+/* }}} */
+
+/* {{{ ZEND_MINIT_FUNCTION
+ */
+ZEND_MINIT_FUNCTION(yal_acl_resource_resource_interface)
+{
+    zend_class_entry ce;
+    INIT_CLASS_ENTRY(ce, "Yal\\Acl\\Resource\\ResourceInterface", yal_acl_resource_resource_interface_methods);
+    yal_acl_resource_resource_interface_ce = zend_register_internal_class_ex(&ce, NULL, NULL TSRMLS_CC);
+    yal_acl_resource_resource_interface_ce->ce_flags |= ZEND_ACC_INTERFACE;
+
+    return SUCCESS;
+}
+/* }}} */

@@ -27,7 +27,6 @@
 #include "ext/standard/info.h"
 #include "php_yal.h"
 
-#include "yal_acl.h"
 /* If you declare any globals in php_yal.h uncomment this:
 ZEND_DECLARE_MODULE_GLOBALS(yal)
 */
