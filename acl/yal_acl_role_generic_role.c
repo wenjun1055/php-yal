@@ -76,7 +76,7 @@ PHP_METHOD(yal_acl_role_generic_role, __toString)
 }
 /* }}} */
 
-/** {{{ yal_acl_role_interface_methods
+/** {{{ yal_acl_role_generic_role_methods
  */
 zend_function_entry yal_acl_role_generic_role_methods[] = {
     PHP_ME(yal_acl_role_generic_role, __construct, yal_acl_role_generic_role_construct_arg, ZEND_ACC_CTOR|ZEND_ACC_PUBLIC)

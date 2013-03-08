@@ -28,6 +28,7 @@
 #include "acl/yal_acl_role_generic_role.h"
 #include "acl/yal_acl_role_registery.h"
 #include "acl/yal_acl_resource_resource_interface.h"
+#include "acl/yal_acl_resource_generic_resource.h"
 
 /* {{{ ZEND_MINIT_FUNCTION
  */
@@ -38,5 +39,6 @@ ZEND_MINIT_FUNCTION(yal_acl)
     ZEND_MODULE_STARTUP_N(yal_acl_role_generic_role)(INIT_FUNC_ARGS_PASSTHRU);
     ZEND_MODULE_STARTUP_N(yal_acl_role_registery)(INIT_FUNC_ARGS_PASSTHRU);
     ZEND_MODULE_STARTUP_N(yal_acl_resource_resource_interface)(INIT_FUNC_ARGS_PASSTHRU);
+    ZEND_MODULE_STARTUP_N(yal_acl_resource_generic_resource)(INIT_FUNC_ARGS_PASSTHRU);
 }
 /* }}} */
