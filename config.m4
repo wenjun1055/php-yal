@@ -62,6 +62,7 @@ if test "$PHP_YAL" != "no"; then
   PHP_NEW_EXTENSION(yal,                    
       yal.c                                           \
       yal_acl.c                                       \
+      acl/yal_acl_acl.c                               \
       acl/yal_acl_acl_interface.c                     \
       acl/yal_acl_role_role_interface.c               \
       acl/yal_acl_role_registery.c                    \

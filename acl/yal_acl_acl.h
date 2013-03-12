@@ -14,18 +14,22 @@
   +----------------------------------------------------------------------+
 */
   
-#ifndef YAL_ACL_ACL_INTERFACE_H
-#define YAL_ACL_ACL_INTERFACE_H
+#ifndef YAL_ACL_ACL_H
+#define YAL_ACL_ACL_H
 
-extern zend_class_entry *yal_acl_acl_interface_ce;
+#define YAL_ACL_ACL_PROPERTY_NAME_TYPE_ALLOW            "TYPE_ALLOW"
+#define YAL_ACL_ACL_PROPERTY_NAME_TYPE_DENY             "TYPE_DENY"
+#define YAL_ACL_ACL_PROPERTY_NAME_OP_ADD                "OP_ADD"
+#define YAL_ACL_ACL_PROPERTY_NAME_OP_REMOVE             "OP_REMOVE"
 
-ZEND_MINIT_FUNCTION(yal_acl_acl_interface);
+#define YAL_ACL_ACL_PROPERTY_NAME_ROLE_REGISTER         "roleRegister"
+#define YAL_ACL_ACL_PROPERTY_NAME_RESOURCES             "resources"
+#define YAL_ACL_ACL_PROPERTY_NAME_IS_ALLOWED_ROLE       "isAllowedRole"
+#define YAL_ACL_ACL_PROPERTY_NAME_IS_ALLOWED_RESOURCE   "isAllowedResource"
+#define YAL_ACL_ACL_PROPERTY_NAME_IS_ALLOWED_PRIVILEGE  "isAllowedPrivilege"
+#define YAL_ACL_ACL_PROPERTY_NAME_RELES                 "rules"
+
+extern zend_class_entry *yal_acl_acl_ce;
+
+ZEND_MINIT_FUNCTION(yal_acl_acl);
 #endif
-/*
- *Local variables:
- *tab-width: 4
- *c-basic-offset: 4
- *End:
- *vim600: noet sw=4 ts=4 fdm=marker
- *vim<600: noet sw=4 ts=4
- */

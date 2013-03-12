@@ -38,20 +38,6 @@ ZEND_BEGIN_ARG_INFO_EX(yal_acl_acl_interface_is_allowed_arg, 0, 0, 3)
 ZEND_END_ARG_INFO()
 /* }}} */
 
-/** {{{ proto public Yal\\Acl\\AclInterface::hasResource($resource)
- */
-// PHP_METHOD(yal_acl_acl_interface, hasResource) 
-// {
-// }
-/* }}} */
-
-/** {{{ proto publiuc Yal\\Acl\\AclInterface::isAllowed($role, $resource, privilege)
- */
-// PHP_METHOD(yal_acl_acl_interface, isAllowed)
-// {
-// }
-/* }}} */
-
 /* {{{ yal_acl_interface_methods
  */
 zend_function_entry yal_acl_acl_interface_methods[] = {

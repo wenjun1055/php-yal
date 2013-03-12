@@ -23,6 +23,7 @@
 #include "php.h"
 #include "php_yal.h"
 
+#include "acl/yal_acl_acl.h"
 #include "acl/yal_acl_role_role_interface.h"
 #include "acl/yal_acl_acl_interface.h"
 #include "acl/yal_acl_role_generic_role.h"
@@ -34,6 +35,7 @@
  */
 ZEND_MINIT_FUNCTION(yal_acl)
 {
+    ZEND_MODULE_STARTUP_N(yal_acl_acl)(INIT_FUNC_ARGS_PASSTHRU);
     ZEND_MODULE_STARTUP_N(yal_acl_acl_interface)(INIT_FUNC_ARGS_PASSTHRU);
     ZEND_MODULE_STARTUP_N(yal_acl_role_role_interface)(INIT_FUNC_ARGS_PASSTHRU);
     ZEND_MODULE_STARTUP_N(yal_acl_role_generic_role)(INIT_FUNC_ARGS_PASSTHRU);
