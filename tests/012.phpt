@@ -1,16 +1,33 @@
 --TEST--
-Check for Yal\Acl\Acl::__construct(void)
+Check for Yal\Acl\Acl::getRoleRegistry(void)
 --SKIPIF--
 <?php if (!extension_loaded("yal")) print "skip"; ?>
 --FILE--
 <?php
 $acl = new Yal\Acl\Acl();
+var_dump($acl->getRoleRegistry());
+echo "\r\n";
+var_dump($acl->getRoleRegistry());
+echo "\r\n";
 var_dump($acl);
 ?>
 --EXPECTF--
+object(Yal\Acl\Role\Registery)#2 (1) {
+  ["roles"]=>
+  NULL
+}
+
+object(Yal\Acl\Role\Registery)#2 (1) {
+  ["roles"]=>
+  NULL
+}
+
 object(Yal\Acl\Acl)#1 (6) {
   ["roleRegister":protected]=>
-  NULL
+  object(Yal\Acl\Role\Registery)#2 (1) {
+    ["roles"]=>
+    NULL
+  }
   ["resources":protected]=>
   array(0) {
   }

@@ -23,6 +23,7 @@
 #include "php_yal.h"
 #include "yal_acl_acl.h"
 #include "yal_acl_acl_interface.h"
+#include "yal_acl_role_registery.h"
 #include "yal_acl_assertion_assertion_interface.h"
 #include "yal_acl_resource_resource_interface.h"
 
@@ -159,6 +160,24 @@ PHP_METHOD(yal_acl_acl, __construct)
 }
 /* }}} */
 
+/** {{{ proto public Yal\Acl\Acl::getRoleRegistry(void)
+ */
+PHP_METHOD(yal_acl_acl, getRoleRegistry) 
+{
+    zval *role_registry, *obj_registery;
+    role_registry = zend_read_property(yal_acl_acl_ce, getThis(), ZEND_STRL(YAL_ACL_ACL_PROPERTY_NAME_ROLE_REGISTER), 0 TSRMLS_CC);
+    if (Z_TYPE_P(role_registry) == IS_NULL) {
+        MAKE_STD_ZVAL(obj_registery);
+        object_init_ex(obj_registery, yal_acl_role_registery_ce);
+        *role_registry = *obj_registery;
+        INIT_PZVAL(role_registry);
+        zval_copy_ctor(role_registry);
+        zval_ptr_dtor(&obj_registery);
+    }
+    RETURN_ZVAL(role_registry, 1, 0);
+}
+/* }}} */
+
 /** {{{ proto public Yal\Acl\Acl::hasResource(void)
  */
 PHP_METHOD(yal_acl_acl, hasResource) 
@@ -179,9 +198,10 @@ PHP_METHOD(yal_acl_acl, isAllowed)
 /** {{{ yal_acl_acl_methods
  */
 zend_function_entry yal_acl_acl_methods[] = {
-    PHP_ME(yal_acl_acl, __construct, NULL,                         ZEND_ACC_CTOR|ZEND_ACC_PUBLIC)
-    PHP_ME(yal_acl_acl, hasResource, yal_acl_acl_has_resource_arg, ZEND_ACC_PUBLIC)
-    PHP_ME(yal_acl_acl, isAllowed,   yal_acl_acl_is_allowed_arg,   ZEND_ACC_PUBLIC)
+    PHP_ME(yal_acl_acl, __construct,        NULL,                         ZEND_ACC_CTOR|ZEND_ACC_PUBLIC)
+    PHP_ME(yal_acl_acl, getRoleRegistry,    NULL,                         ZEND_ACC_PUBLIC)
+    PHP_ME(yal_acl_acl, hasResource,        yal_acl_acl_has_resource_arg, ZEND_ACC_PUBLIC)
+    PHP_ME(yal_acl_acl, isAllowed,          yal_acl_acl_is_allowed_arg,   ZEND_ACC_PUBLIC)
     {NULL, NULL, NULL}
 };
 /* }}} */
