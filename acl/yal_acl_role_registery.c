@@ -35,7 +35,7 @@ ZEND_BEGIN_ARG_INFO_EX(yal_acl_role_registery_void_arg, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(yal_acl_role_registery_add_arg, 0, 0, 1)
-    ZEND_ARG_OBJ_INFO(0, role, Yal\\Acl\\Role\\GenericRole, 0)
+    ZEND_ARG_OBJ_INFO(0, role, Yal\\Acl\\Role\\RoleInterface, 0)
     ZEND_ARG_INFO(0, parents)
 ZEND_END_ARG_INFO()
 
@@ -146,29 +146,12 @@ PHP_METHOD(yal_acl_role_registery, add)
             }
             zend_call_method_with_1_params(&getThis(), Z_OBJCE_P(getThis()), NULL, "get", &role_parent, role_parent_id);
             
-            //printf("1--%s\n", Z_STRVAL_P(role_parent_id));
-            
             add_assoc_zval(role_parents, Z_STRVAL_P(role_parent_id), role_parent);
             
             role_array = zend_read_property(yal_acl_role_registery_ce, getThis(), ZEND_STRL(YAL_ACL_ROLE_REGISTERY_PROPERTY_ROLES), 0 TSRMLS_CC);
             zval_add_ref(&role_array);
             convert_to_array_ex(&role_array);
-            zval_add_ref(&role_interface);
-            
-            // zval *temp, *temp_1;
-            // MAKE_STD_ZVAL(temp);
-            // MAKE_STD_ZVAL(temp_1);
-            // array_init(temp);
-            // array_init(temp_1);
-            
-            // zval_add_ref(&role_interface);
-            // printf("2--%s\n", Z_STRVAL_P(ret));
-            // add_assoc_zval(temp, Z_STRVAL_P(ret), role_interface);
-            // add_assoc_zval(temp_1, "children", temp);
-
-            // printf("3--%s\n", Z_STRVAL_P(role_parent_id));
-            // add_assoc_zval(role_array, Z_STRVAL_P(role_parent_id), temp_1);
-            
+            //zval_add_ref(&role_interface);
             
             zval **role_parent_interface, **role_children_id;
             
@@ -178,21 +161,14 @@ PHP_METHOD(yal_acl_role_registery, add)
                 RETURN_FALSE;
             }
             
-            //printf("%d\n", Z_TYPE_PP(role_parent_interface));
-            
             if (zend_hash_find(Z_ARRVAL_PP(role_parent_interface), ZEND_STRS("children"), (void **)&role_children_id) != SUCCESS) {
                 php_error_docref(NULL TSRMLS_CC, E_WARNING, "Roles '%s' not found", Z_STRVAL_P(role_parent_id));
                 zval_ptr_dtor(&role_parent_id);
                 RETURN_FALSE;
             }
             
-            //printf("%d\n", Z_TYPE_PP(role_children_id));
-            //convert_to_array_ex(role_children_id);
             add_assoc_zval(*role_children_id, Z_STRVAL_P(ret), role_interface);
-            //zend_hash_update(Z_ARRVAL_PP(role_parent_interface), "children", sizeof("children")+1, *role_children_id, sizeof(zval*), NULL);
-            // zend_update_property(yal_acl_role_registery_ce, getThis(), ZEND_STRL(YAL_ACL_ROLE_REGISTERY_PROPERTY_ROLES), role_array TSRMLS_CC);
-            // zval_ptr_dtor(&temp);
-            // zval_ptr_dtor(&temp_1);
+
             zval_ptr_dtor(&role_parent_id);
             zval_ptr_dtor(&role_array);
             zend_hash_move_forward_ex(parents_hash, &pointer);
@@ -221,14 +197,8 @@ PHP_METHOD(yal_acl_role_registery, add)
     
     zval_ptr_dtor(&parents);
     zval_ptr_dtor(&ret);
-    //zval_ptr_dtor(&role_parent_id);
-    //zval_ptr_dtor(&role_array);
-    //zval_ptr_dtor(&role_interface);
     zval_ptr_dtor(&return_value_bool);
     zval_ptr_dtor(&role_array);
-    //zval_ptr_dtor(&temp_array_1);
-    //zval_ptr_dtor(&temp_array_2);
-    
     
     RETURN_ZVAL(getThis(), 1, 0);
 }

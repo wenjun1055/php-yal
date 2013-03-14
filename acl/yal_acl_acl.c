@@ -24,6 +24,8 @@
 #include "yal_acl_acl.h"
 #include "yal_acl_acl_interface.h"
 #include "yal_acl_role_registery.h"
+#include "yal_acl_role_generic_role.h"
+#include "yal_acl_role_role_interface.h"
 #include "yal_acl_assertion_assertion_interface.h"
 #include "yal_acl_resource_resource_interface.h"
 
@@ -34,7 +36,8 @@ zend_class_entry *yal_acl_acl_ce;
 /** {{{ ARG_INFO
 */
 ZEND_BEGIN_ARG_INFO_EX(yal_acl_acl_add_role_arg, 0, 0, 1)
-    ZEND_ARG_OBJ_INFO(0, role, Yal\\Acl\\AclInterface, 0)
+    //ZEND_ARG_OBJ_INFO(0, role, Yal\\Acl\\AclInterface, 0)
+    ZEND_ARG_INFO(0, role)
     ZEND_ARG_INFO(0, parents)
 ZEND_END_ARG_INFO()
 
@@ -160,6 +163,47 @@ PHP_METHOD(yal_acl_acl, __construct)
 }
 /* }}} */
 
+/** {{{ proto public Yal\Acl\Acl::addRole(void)
+ */
+PHP_METHOD(yal_acl_acl, addRole) 
+{
+    zval *role_interface, *parents, *role;
+    zval *generic_role, *obj_registery;
+    
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &role_interface, &parents) == FAILURE) {
+        RETURN_NULL();
+    }
+    
+    if (!parents) {
+        MAKE_STD_ZVAL(parents);
+        ZVAL_NULL(parents);
+    }
+    
+    if (Z_TYPE_P(role_interface) == IS_STRING) {
+        MAKE_STD_ZVAL(generic_role);
+        object_init_ex(generic_role, yal_acl_role_generic_role_ce);
+        zend_call_method_with_1_params(&generic_role, yal_acl_role_generic_role_ce, NULL, "__construct", &role, role_interface);
+    } else if (IS_OBJECT == Z_TYPE_P(role_interface) &&
+        !instanceof_function(Z_OBJCE_P(role_interface), yal_acl_role_role_interface_ce TSRMLS_CC)) {
+        php_error_docref(NULL TSRMLS_CC, E_WARNING, "expects %s to be of type Yal\\Acl\\Role\\RoleInterface", Z_OBJVAL_P(role_interface));
+        zval_ptr_dtor(&parents);
+        zval_ptr_dtor(&role_interface);
+        RETURN_FALSE;
+    } else {
+        MAKE_STD_ZVAL(role);
+        *role = *role_interface;
+        INIT_PZVAL(role);
+        zval_copy_ctor(role);
+    }
+    //printf("%d\n", Z_TYPE_P(role));
+    zend_call_method_with_0_params(&getThis(), Z_OBJCE_P(getThis()), NULL, "getroleregistry", &obj_registery);
+    convert_to_object_ex(&obj_registery);
+    zend_call_method_with_2_params(&obj_registery, Z_OBJCE_P(obj_registery), NULL, "add", NULL, role, parents);
+    //return SUCCESS;
+    RETURN_ZVAL(obj_registery, 1, 0);
+}
+/* }}} */
+
 /** {{{ proto public Yal\Acl\Acl::getRoleRegistry(void)
  */
 PHP_METHOD(yal_acl_acl, getRoleRegistry) 
@@ -199,7 +243,8 @@ PHP_METHOD(yal_acl_acl, isAllowed)
  */
 zend_function_entry yal_acl_acl_methods[] = {
     PHP_ME(yal_acl_acl, __construct,        NULL,                         ZEND_ACC_CTOR|ZEND_ACC_PUBLIC)
-    PHP_ME(yal_acl_acl, getRoleRegistry,    NULL,                         ZEND_ACC_PUBLIC)
+    PHP_ME(yal_acl_acl, addRole,            yal_acl_acl_add_role_arg,     ZEND_ACC_PUBLIC)
+    PHP_ME(yal_acl_acl, getRoleRegistry,    NULL,                         ZEND_ACC_PROTECTED)
     PHP_ME(yal_acl_acl, hasResource,        yal_acl_acl_has_resource_arg, ZEND_ACC_PUBLIC)
     PHP_ME(yal_acl_acl, isAllowed,          yal_acl_acl_is_allowed_arg,   ZEND_ACC_PUBLIC)
     {NULL, NULL, NULL}
