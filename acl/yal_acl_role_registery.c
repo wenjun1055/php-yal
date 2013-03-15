@@ -244,11 +244,12 @@ PHP_METHOD(yal_acl_role_registery, has)
     }
 
     temp_role = zend_read_property(yal_acl_role_registery_ce, getThis(), ZEND_STRL(YAL_ACL_ROLE_REGISTERY_PROPERTY_ROLES), 1 TSRMLS_CC);
-    if (zend_hash_exists(Z_ARRVAL_P(temp_role), role, role_len+1)) {
-        RETURN_BOOL(1);
-    } else {
-        RETURN_BOOL(0);
+    if (IS_ARRAY == Z_TYPE_P(temp_role)) {
+        if (zend_hash_exists(Z_ARRVAL_P(temp_role), role, role_len+1)) {
+            RETURN_BOOL(1);
+        }
     }
+    RETURN_BOOL(0);
 }
 /* }}} */
 

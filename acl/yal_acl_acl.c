@@ -163,7 +163,7 @@ PHP_METHOD(yal_acl_acl, __construct)
 }
 /* }}} */
 
-/** {{{ proto public Yal\Acl\Acl::addRole(void)
+/** {{{ proto public Yal\Acl\Acl::addRole($role, $parents = null)
  */
 PHP_METHOD(yal_acl_acl, addRole) 
 {
@@ -174,7 +174,7 @@ PHP_METHOD(yal_acl_acl, addRole)
         RETURN_NULL();
     }
     
-    if (!parents) {
+    if (IS_NULL == Z_TYPE_P(parents)) {
         MAKE_STD_ZVAL(parents);
         ZVAL_NULL(parents);
     }
@@ -195,19 +195,10 @@ PHP_METHOD(yal_acl_acl, addRole)
         INIT_PZVAL(role);
         zval_copy_ctor(role);
     }
-    //printf("%d\n", Z_TYPE_P(role));
     zend_call_method_with_0_params(&getThis(), Z_OBJCE_P(getThis()), NULL, "getroleregistry", &obj_registery);
-    //printf("%d\n", Z_TYPE_P(obj_registery));
-    //printf("%d\n", Z_TYPE_P(obj_registery));
+    zend_call_method_with_2_params(&obj_registery, Z_OBJCE_P(obj_registery), NULL, "add", NULL, role, parents);
     
-    //convert_to_object_ex(&obj_registery);
-    zend_call_method_with_2_params(&obj_registery, yal_acl_role_registery_ce, NULL, "add", NULL, role, parents);
-    //return SUCCESS;
-    
-    
-    
-    
-    //zval_ptr_dtor(&role);
+    zval_ptr_dtor(&role);
     RETURN_ZVAL(obj_registery, 1, 0);
 }
 /* }}} */

@@ -1,5 +1,5 @@
 --TEST--
-Check for Yal\Acl\Role\Registery::add()
+Check for Yal\Acl\Role\Registery::inherits()
 --SKIPIF--
 <?php if (!extension_loaded("yal")) print "skip"; ?>
 --FILE--

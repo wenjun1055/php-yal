@@ -1,5 +1,5 @@
 --TEST--
-Check for Yal\Acl\Acl::getRoleRegistry(void)
+Check for Yal\Acl\Acl::addRole($role, $parents = null)
 --SKIPIF--
 <?php if (!extension_loaded("yal")) print "skip"; ?>
 --FILE--
