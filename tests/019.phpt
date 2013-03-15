@@ -19,20 +19,23 @@ $roleRegistery->add(new Role\GenericRole('someUser'), $parents);
 var_dump($roleRegistery->inherits(new Role\GenericRole('someUser'), $roleGuest));
 var_dump($roleRegistery->inherits(new Role\GenericRole('someUser'), $roleMember));
 var_dump($roleRegistery->inherits(new Role\GenericRole('someUser'), $roleAdmin));
-
+echo "\r\n";
 var_dump($roleRegistery->inherits('someUser', $roleGuest));
 var_dump($roleRegistery->inherits('someUser', $roleMember));
 var_dump($roleRegistery->inherits('someUser', $roleAdmin));
-
+echo "\r\n";
 var_dump($roleRegistery->inherits(new Role\GenericRole('someUser'), 'guest'));
 var_dump($roleRegistery->inherits(new Role\GenericRole('someUser'), 'member'));
 var_dump($roleRegistery->inherits(new Role\GenericRole('someUser'), 'admin'));
-
+echo "\r\n";
 var_dump($roleRegistery->inherits('someUser', 'guest'));
 var_dump($roleRegistery->inherits('someUser', 'member'));
 var_dump($roleRegistery->inherits('someUser', 'admin'));
-
+echo "\r\n";
 var_dump($roleRegistery->inherits($roleAdmin, $roleAdmin));
 var_dump($roleRegistery->inherits($roleGuest, $roleAdmin));
+echo "\r\n";
+var_dump($roleRegistery->inherits('admin', 'someUser'));
+var_dump($roleRegistery->inherits('admin', 'member'));
 ?>
 --EXPECTF--
