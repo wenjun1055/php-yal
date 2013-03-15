@@ -9,4 +9,4 @@ $roleRegistery = new Role\Registery();
 $roleRegistery->add('sss');
 ?>
 --EXPECTF--
-Catchable fatal error: Argument 1 passed to Yal\Acl\Role\Registery::add() must be an instance of Yal\Acl\Role\GenericRole, string given in /home/vagrant/php-5.3.10/ext/yal/tests/005.php on line 4
+Catchable fatal error: Argument 1 passed to Yal\Acl\Role\Registery::add() must implement interface Yal\Acl\Role\RoleInterface, string given in /home/vagrant/php-5.3.10/ext/yal/tests/005.php on line 4

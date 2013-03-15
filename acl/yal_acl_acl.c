@@ -197,9 +197,17 @@ PHP_METHOD(yal_acl_acl, addRole)
     }
     //printf("%d\n", Z_TYPE_P(role));
     zend_call_method_with_0_params(&getThis(), Z_OBJCE_P(getThis()), NULL, "getroleregistry", &obj_registery);
-    convert_to_object_ex(&obj_registery);
-    zend_call_method_with_2_params(&obj_registery, Z_OBJCE_P(obj_registery), NULL, "add", NULL, role, parents);
+    //printf("%d\n", Z_TYPE_P(obj_registery));
+    //printf("%d\n", Z_TYPE_P(obj_registery));
+    
+    //convert_to_object_ex(&obj_registery);
+    zend_call_method_with_2_params(&obj_registery, yal_acl_role_registery_ce, NULL, "add", NULL, role, parents);
     //return SUCCESS;
+    
+    
+    
+    
+    //zval_ptr_dtor(&role);
     RETURN_ZVAL(obj_registery, 1, 0);
 }
 /* }}} */
