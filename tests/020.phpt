@@ -22,7 +22,23 @@ if ($role === $roleGuest) {
 } else {
     var_dump('no');
 }
+
+$acl       = new Acl();
+$role = $acl->addRole('area')
+            ->getRole('area');
+if ($role instanceof Role\RoleInterface) {
+    var_dump('role is instance of Role\RoleInterface');
+} else {
+    var_dump('role is not instance of Role\RoleInterface');
+}
+if ('area' === $role->getRoleId()) {
+    var_dump('yes');
+} else {
+    var_dump('no');
+}
 ?>
 --EXPECTF--
 string(3) "yes"
+string(3) "yes"
+string(38) "role is instance of Role\RoleInterface"
 string(3) "yes"

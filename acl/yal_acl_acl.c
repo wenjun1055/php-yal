@@ -183,6 +183,7 @@ PHP_METHOD(yal_acl_acl, addRole)
         MAKE_STD_ZVAL(generic_role);
         object_init_ex(generic_role, yal_acl_role_generic_role_ce);
         zend_call_method_with_1_params(&generic_role, yal_acl_role_generic_role_ce, NULL, "__construct", &role, role_interface);
+        zval_ptr_dtor(&generic_role);
     } else if (IS_OBJECT == Z_TYPE_P(role_interface) &&
         !instanceof_function(Z_OBJCE_P(role_interface), yal_acl_role_role_interface_ce TSRMLS_CC)) {
         php_error_docref(NULL TSRMLS_CC, E_WARNING, "expects %s to be of type Yal\\Acl\\Role\\RoleInterface", Z_OBJVAL_P(role_interface));

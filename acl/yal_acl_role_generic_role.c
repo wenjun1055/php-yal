@@ -49,6 +49,7 @@ PHP_METHOD(yal_acl_role_generic_role, __construct)
     ZVAL_STRING(role, role_id, 1);
     zend_update_property(yal_acl_role_generic_role_ce, getThis(), ZEND_STRL(YAL_ACL_ROLE_GENERIC_ROLE_PROPERTY_NAME_ROLE_ID), role TSRMLS_CC);
     zval_ptr_dtor(&role);
+    RETURN_ZVAL(getThis(), 1, 0);
 }
 /* }}} */
 
