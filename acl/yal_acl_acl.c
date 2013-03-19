@@ -19,6 +19,9 @@
 #endif
 
 #include "php.h"
+#include "zend_API.h"
+#include "zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 #include "php_yal.h"
 #include "yal_acl_acl.h"
@@ -28,8 +31,6 @@
 #include "yal_acl_role_role_interface.h"
 #include "yal_acl_assertion_assertion_interface.h"
 #include "yal_acl_resource_resource_interface.h"
-
-#include "Zend/zend_interfaces.h"
 
 zend_class_entry *yal_acl_acl_ce;
 
@@ -145,7 +146,7 @@ ZEND_API zval* yal_call_method(zval **object_pp, zend_class_entry *obj_ce,
     zval **params[3];
     params[0] = &arg1;
     params[1] = &arg2;
-    params[3] = &arg3;
+    params[2] = &arg3;
     
     fci.size           = sizeof(fci);
     fci.object_ptr     = object_pp ? *object_pp : NULL;
@@ -184,7 +185,8 @@ ZEND_API zval* yal_call_method(zval **object_pp, zend_class_entry *obj_ce,
         fcic.calling_scope = obj_ce;
         if (object_pp) {
             fcic.called_scope = Z_OBJCE_PP(object_pp);
-        } else if (obj_ce && !(EG(called_scope)) &&
+        } else if (obj_ce && 
+                   !(EG(called_scope)) &&
                    instanceof_function(EG(called_scope), obj_ce TSRMLS_CC)) 
         {
             fcic.called_scope = obj_ce;
@@ -332,15 +334,15 @@ PHP_METHOD(yal_acl_acl, hasRole)
  */
 PHP_METHOD(yal_acl_acl, inheritsRole) 
 {
-    zval *role, *inherit, *registery_obj, *return_get_value;
-    zend_bool onlyParents = 0;
+    zval *role, *inherit, *registery_obj, *return_get_value, *only_parents;
+    //zend_bool onlyParents = 0;
     
-    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|b", &role, &inherit, &onlyParents) == FAILURE) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &role, &inherit, &only_parents) == FAILURE) {
         RETURN_NULL();
     }
     
     zend_call_method_with_0_params(&getThis(), Z_OBJCE_P(getThis()), NULL, "getroleregistry", &registery_obj);
-    zend_call_method_with_3_params(&registery_obj, Z_OBJCE_P(registery_obj), NULL, "inherits", &return_get_value, role, inherit, onlyParents);
+    zend_call_method_with_3_params(&registery_obj, Z_OBJCE_P(registery_obj), NULL, "inherits", &return_get_value, role, inherit, only_parents);
     
     zval_ptr_dtor(&registery_obj);
     RETURN_ZVAL(return_get_value, 1, 0);
