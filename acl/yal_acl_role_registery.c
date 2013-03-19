@@ -436,7 +436,8 @@ PHP_METHOD(yal_acl_role_registery, inherits)
     HashPosition pointer;
     uint parents_array_key_len;
     long parents_array_num_key;
-    int inherits, onlyParents = 0, flag;
+    int inherits, flag;
+    zend_bool onlyParents = 0;
     
     if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|l", &role, &inherit, &onlyParents) == FAILURE) {
         RETURN_FALSE;

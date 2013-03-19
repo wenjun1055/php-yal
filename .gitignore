@@ -24,6 +24,5 @@ libtool
 ltmain.sh
 missing
 mkinstalldirs
-run-tests.php
 yal.la
 .deps
