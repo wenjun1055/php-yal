@@ -335,7 +335,6 @@ PHP_METHOD(yal_acl_acl, hasRole)
 PHP_METHOD(yal_acl_acl, inheritsRole) 
 {
     zval *role, *inherit, *registery_obj, *return_get_value, *only_parents;
-    //zend_bool onlyParents = 0;
     
     if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &role, &inherit, &only_parents) == FAILURE) {
         RETURN_NULL();
@@ -408,7 +407,7 @@ ZEND_MINIT_FUNCTION(yal_acl_acl)
     zend_class_entry ce;
     INIT_CLASS_ENTRY(ce, "Yal\\Acl\\Acl", yal_acl_acl_methods);
     yal_acl_acl_ce = zend_register_internal_class_ex(&ce, NULL, NULL TSRMLS_CC);
-    //zend_class_implements(yal_acl_acl_ce TSRMLS_CC, 1, yal_acl_acl_interface_ce);
+    zend_class_implements(yal_acl_acl_ce TSRMLS_CC, 1, yal_acl_acl_interface_ce);
     yal_acl_acl_ce->ce_flags |= ZEND_ACC_FINAL_CLASS;
     
     zend_declare_property_null(yal_acl_acl_ce, ZEND_STRL(YAL_ACL_ACL_PROPERTY_NAME_ROLE_REGISTER),        ZEND_ACC_PROTECTED TSRMLS_CC);
