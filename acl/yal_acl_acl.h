@@ -31,5 +31,12 @@
 
 extern zend_class_entry *yal_acl_acl_ce;
 
+ZEND_API zval* yal_call_method(zval **object_pp, zend_class_entry *obj_ce, zend_function **fn_proxy,  \
+                               char *function_name, int function_name_len, zval **retval_ptr_ptr,     \
+                               int param_count, zval* arg1, zval* arg2, zval* arg3 TSRMLS_DC);
+
+#define zend_call_method_with_3_params(obj, obj_ce, fn_proxy, function_name, retval, arg1, arg2, arg3) \
+    yal_call_method(obj, obj_ce, fn_proxy, function_name, sizeof(function_name)-1, retval, 3, arg1, arg2, arg3 TSRMLS_CC)
+
 ZEND_MINIT_FUNCTION(yal_acl_acl);
 #endif
