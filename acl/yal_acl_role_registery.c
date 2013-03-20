@@ -344,6 +344,9 @@ PHP_METHOD(yal_acl_role_registery, remove)
     }
     
     zend_call_method_with_1_params(&getThis(), Z_OBJCE_P(getThis()), NULL, "get", &role_interface_instance, role);
+    if (Z_TYPE_P(role_interface_instance) != IS_OBJECT) {
+        RETURN_ZVAL(getThis(), 1, 0);
+    }
     zend_call_method_with_1_params(&role_interface_instance, Z_OBJCE_P(role_interface_instance), NULL, "getroleid", &role_id, role_interface_instance);
     roles = zend_read_property(yal_acl_role_registery_ce, getThis(), ZEND_STRL(YAL_ACL_ROLE_REGISTERY_PROPERTY_ROLES), 1 TSRMLS_CC);
     zval_add_ref(&roles);
