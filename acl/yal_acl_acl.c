@@ -438,7 +438,74 @@ PHP_METHOD(yal_acl_acl, removeRole)
 }
 /* }}} */
 
+/** {{{ proto public Yal\Acl\Acl::removeRoleAll(void)
+ */
+PHP_METHOD(yal_acl_acl, removeRoleAll) 
+{
+    zval *rules, *registery_obj;
+    zval **rules_allresources, **rules_allresources_byroleid, **rules_byresourcedid;
+    zval **visitor, **visitor_byroleid;
+    HashPosition pointer, pointer_visitor;
+    char *rules_allresources_byroleid_key, *resource_id_current, *role_id_current;
+    uint rules_allresources_byroleid_key_len, resource_id_current_len, role_id_current_len;
+    ulong rules_allresources_byroleid_num_key, resource_id_current_num_key, role_id_current_num_key;
+    
+    zend_call_method_with_0_params(&getThis(), Z_OBJCE_P(getThis()), NULL, "getroleregistry", &registery_obj);
+    zend_call_method_with_0_params(&registery_obj, Z_OBJCE_P(registery_obj), NULL, "removeall", NULL);
+    
+    rules = zend_read_property(yal_acl_acl_ce, getThis(), ZEND_STRL(YAL_ACL_ACL_PROPERTY_NAME_RELES), 1 TSRMLS_CC);
+    
+    if (zend_hash_find(Z_ARRVAL_P(rules), ZEND_STRS("allResources"), (void **)&rules_allresources) != SUCCESS) {
+        php_error_docref(NULL TSRMLS_CC, E_WARNING, "Roles allResources not found");
+        RETURN_FALSE;
+    }
+    if (zend_hash_find(Z_ARRVAL_PP(rules_allresources), ZEND_STRS("byRoleId"), (void **)&rules_allresources_byroleid) != SUCCESS) {
+        php_error_docref(NULL TSRMLS_CC, E_WARNING, "Roles byRoleId not found");
+        RETURN_FALSE;
+    }
+    
+    if (zend_hash_num_elements(Z_ARRVAL_PP(rules_allresources_byroleid))) {
+        zend_hash_internal_pointer_reset_ex(Z_ARRVAL_PP(rules_allresources_byroleid), &pointer);
+        while (zend_hash_get_current_key_ex(Z_ARRVAL_PP(rules_allresources_byroleid), &rules_allresources_byroleid_key, &rules_allresources_byroleid_key_len, &rules_allresources_byroleid_num_key, 0, &pointer)) {
+            zend_hash_del(Z_ARRVAL_PP(rules_allresources_byroleid), rules_allresources_byroleid_key, rules_allresources_byroleid_key_len);
+            zend_hash_move_forward_ex(Z_ARRVAL_PP(rules_allresources_byroleid), &pointer); 
+        }
+    }
+    
+    if (zend_hash_find(Z_ARRVAL_P(rules), ZEND_STRS("byResourceId"), (void **)&rules_byresourcedid) != SUCCESS) {
+        php_error_docref(NULL TSRMLS_CC, E_WARNING, "Roles byResourceId not found");
+        RETURN_FALSE;
+    }
+    
+    if (zend_hash_num_elements(Z_ARRVAL_PP(rules_byresourcedid))) {
+        zend_hash_internal_pointer_reset_ex(Z_ARRVAL_PP(rules_byresourcedid), &pointer);
+        while (zend_hash_get_current_data_ex(Z_ARRVAL_PP(rules_byresourcedid), (void**)&visitor, &pointer) == SUCCESS) {
+            zend_hash_get_current_key_ex(Z_ARRVAL_PP(rules_byresourcedid), &resource_id_current, &resource_id_current_len, &resource_id_current_num_key, 0, &pointer);
 
+            zend_hash_find(Z_ARRVAL_PP(visitor), ZEND_STRS("byRoleId"), (void **)&visitor_byroleid);
+            zend_hash_internal_pointer_reset_ex(Z_ARRVAL_PP(visitor_byroleid), &pointer_visitor);
+                
+            while (zend_hash_get_current_key_ex(Z_ARRVAL_PP(visitor_byroleid), &role_id_current, &role_id_current_len, &role_id_current_num_key, 0, &pointer_visitor)) {
+                zval **rules_byresourcedid_resourceidcurrent, **rules_byresourcedid_resourceidcurrent_byroleid;
+                if (zend_hash_find(Z_ARRVAL_PP(rules_byresourcedid), resource_id_current, sizeof(resource_id_current)+1, (void **)&rules_byresourcedid_resourceidcurrent) != SUCCESS) {
+                    php_error_docref(NULL TSRMLS_CC, E_WARNING, "Roles '%s' not found", resource_id_current);
+                    RETURN_FALSE;
+                }
+                if (zend_hash_find(Z_ARRVAL_PP(rules_byresourcedid_resourceidcurrent), ZEND_STRS("byRoleId"), (void **)&rules_byresourcedid_resourceidcurrent_byroleid) != SUCCESS) {
+                    php_error_docref(NULL TSRMLS_CC, E_WARNING, "Roles '%s' not found", resource_id_current);
+                    RETURN_FALSE;
+                }
+
+                zend_hash_del(Z_ARRVAL_PP(rules_byresourcedid_resourceidcurrent_byroleid), role_id_current, role_id_current_len);
+                zend_hash_move_forward_ex(Z_ARRVAL_PP(visitor_byroleid), &pointer); 
+                }
+            zend_hash_move_forward_ex(Z_ARRVAL_PP(rules_byresourcedid), &pointer); 
+        }
+    }
+    
+    RETURN_ZVAL(getThis(), 1, 0);
+}
+/* }}} */
 
 /** {{{ proto public Yal\Acl\Acl::getRoleRegistry(void)
  */
@@ -485,7 +552,8 @@ zend_function_entry yal_acl_acl_methods[] = {
     PHP_ME(yal_acl_acl, getRole,            yal_acl_acl_get_role_arg,       ZEND_ACC_PUBLIC)
     PHP_ME(yal_acl_acl, hasRole,            yal_acl_acl_has_role_arg,       ZEND_ACC_PUBLIC)
     PHP_ME(yal_acl_acl, inheritsRole,       yal_acl_acl_inherits_role_arg,  ZEND_ACC_PUBLIC)
-    PHP_ME(yal_acl_acl, removeRole,         yal_acl_acl_remove_role_arg,       ZEND_ACC_PUBLIC)
+    PHP_ME(yal_acl_acl, removeRole,         yal_acl_acl_remove_role_arg,    ZEND_ACC_PUBLIC)
+    PHP_ME(yal_acl_acl, removeRoleAll,      NULL,                           ZEND_ACC_PUBLIC)
     PHP_ME(yal_acl_acl, getRoleRegistry,    NULL,                           ZEND_ACC_PROTECTED)
     PHP_ME(yal_acl_acl, hasResource,        yal_acl_acl_has_resource_arg,   ZEND_ACC_PUBLIC)
     PHP_ME(yal_acl_acl, isAllowed,          yal_acl_acl_is_allowed_arg,     ZEND_ACC_PUBLIC)
