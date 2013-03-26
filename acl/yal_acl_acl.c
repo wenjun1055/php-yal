@@ -513,7 +513,7 @@ PHP_METHOD(yal_acl_acl, removeRoleAll)
  */
 PHP_METHOD(yal_acl_acl, addResource) 
 {
-    zval *resource, *parent, *generic_role, *resource_id, *hasresource_flag;
+    zval *resource, *parent = NULL, *generic_role, *resource_id, *hasresource_flag;
     
     if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &resource, &parent) == FAILURE) {
         RETURN_FALSE;
@@ -548,8 +548,9 @@ PHP_METHOD(yal_acl_acl, addResource)
     
     zval *resources;
     resources = zend_read_property(yal_acl_acl_ce, getThis(), ZEND_STRL(YAL_ACL_ACL_PROPERTY_NAME_RESOURCES), 1 TSRMLS_CC);
-    
-    if (IS_NULL != Z_TYPE_P(parent)) {
+
+    if (parent) {
+        
         zval *resource_parent_id;
         
         if (IS_OBJECT == Z_TYPE_P(parent) &&
@@ -637,10 +638,26 @@ PHP_METHOD(yal_acl_acl, getResource)
  */
 PHP_METHOD(yal_acl_acl, hasResource) 
 {
-    zval *resource, *resource_id;
+    zval *resource, *resource_id, *resources;
+    
     if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &resource) == FAILURE) {
         RETURN_FALSE;
     }
+    
+    if (IS_OBJECT == Z_TYPE_P(resource) &&
+        instanceof_function(Z_OBJCE_P(resource), yal_acl_resource_resource_interface_ce TSRMLS_CC)) {
+        zend_call_method_with_0_params(&resource, Z_OBJCE_P(resource), NULL, "getresourceid", &resource_id);
+    } else {
+        convert_to_string_ex(&resource);
+        MAKE_STD_ZVAL(resource_id);
+        *resource_id = *resource;
+        INIT_PZVAL(resource_id);
+        zval_copy_ctor(resource_id);
+    }
+    
+    resources = zend_read_property(yal_acl_acl_ce, getThis(), ZEND_STRL(YAL_ACL_ACL_PROPERTY_NAME_RESOURCES), 1 TSRMLS_CC);
+    
+    RETURN_BOOL(zend_hash_exists(Z_ARRVAL_P(resources), Z_STRVAL_P(resource_id), Z_STRLEN_P(resource_id)+1));
 }
 /* }}} */
 
