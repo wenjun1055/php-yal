@@ -8,7 +8,11 @@ namespace Yal\Acl;
 
 $acl = new Acl();
 $resourceArea = new Resource\GenericResource('area');
-$acl->addResource($resourceArea);
+$memberArea = new Resource\GenericResource('member');
+$vipArea = new Resource\GenericResource('vip');
+$acl->addResource($memberArea);
+$acl->addResource($vipArea, $memberArea);
+$acl->addResource($resourceArea, $vipArea);
 var_dump($acl);
 ?>
 --EXPECTF--

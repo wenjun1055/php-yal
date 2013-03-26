@@ -12,4 +12,4 @@ $acl->addResource($resourceArea);
 var_dump($resourceArea === $acl->getResource($resourceArea)); //bool(true)
 ?>
 --EXPECTF--
-//bool(true)
+bool(true)
