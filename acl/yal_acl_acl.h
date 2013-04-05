@@ -27,7 +27,7 @@
 #define YAL_ACL_ACL_PROPERTY_NAME_IS_ALLOWED_ROLE       "isAllowedRole"
 #define YAL_ACL_ACL_PROPERTY_NAME_IS_ALLOWED_RESOURCE   "isAllowedResource"
 #define YAL_ACL_ACL_PROPERTY_NAME_IS_ALLOWED_PRIVILEGE  "isAllowedPrivilege"
-#define YAL_ACL_ACL_PROPERTY_NAME_RELES                 "rules"
+#define YAL_ACL_ACL_PROPERTY_NAME_RULES                 "rules"
 
 extern zend_class_entry *yal_acl_acl_ce;
 
